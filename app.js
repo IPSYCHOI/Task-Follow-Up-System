@@ -4,6 +4,7 @@ const cors = require('cors');
 const {globalErrorHandler}=require("./middlewares/globalErrorHandler")
 const app =express()
 
+// test
 
 app.use(cors({
   origin: '*',
