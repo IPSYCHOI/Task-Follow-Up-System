@@ -1,39 +1,39 @@
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 
-const userSchema=new mongoose.Schema({
-    email:{
-        type:String,
-        unique:true,
-        required:true
+const userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        unique: true,
+        required: true
     },
-    username:{
-        type:String,
-        required:true
+    username: {
+        type: String,
+        required: true
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     }
 },
-{
-    timestamps:true
-}
+    {
+        timestamps: true
+    }
 )
 
-userSchema.pre("save",async function (next){
-    if(!this.isModified("password"))
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password"))
         return next()
 
     try {
-        this.password=await bcrypt.hash(this.password,12)
+        this.password = await bcrypt.hash(this.password, 12)
         next()
     } catch (error) {
         next(error)
     }
 })
 
-userSchema.methods.passCheck=function(password){
-    return bcrypt.compare(  password,this.password)
+userSchema.methods.passCheck = function (password) {
+    return bcrypt.compare(password, this.password)
 }
 module.exports = mongoose.model('User', userSchema)
