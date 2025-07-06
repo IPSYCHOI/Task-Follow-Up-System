@@ -1,6 +1,7 @@
 
-const mongoose=require("mongoose")
-require("dotenv").config()
+import mongoose from "mongoose"
+import { config } from 'dotenv';
+config()
 
 const dbconnect=()=>{
     return mongoose.connect(process.env.MONGO_URI)
@@ -9,4 +10,4 @@ const dbconnect=()=>{
         throw new Error("Database Connection Failed: " + err.message)
     })
 }
-exports.dbconnect=dbconnect
+export default dbconnect
