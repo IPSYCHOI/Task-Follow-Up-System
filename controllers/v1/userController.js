@@ -1,7 +1,7 @@
 import User from "../../models/UserModel.js"
 import { generateToken } from "../../utils/generateJwt.js"
 import validator from 'validator'
-export const create=()=>{}
+export const login=()=>{}
 export const signUp=async(req,res,next)=>{
     const {username,email,password,password2}=req.body
     if(!username||!email||!password||!password2){
@@ -52,4 +52,4 @@ export const signUp=async(req,res,next)=>{
 
     
 }
-export default {create,signUp}
+export default {login,signUp}
