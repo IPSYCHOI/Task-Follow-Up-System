@@ -1,7 +1,7 @@
-const express = require("express")
+import express from "express"
 
-const cors = require('cors');
-const {globalErrorHandler}=require("./middlewares/globalErrorHandler")
+import cors  from "cors"
+import globalErrorHandler from "./middlewares/globalErrorHandler.js"
 const app =express()
 
 
@@ -11,4 +11,4 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(globalErrorHandler)
-exports.app=app
+export default app
