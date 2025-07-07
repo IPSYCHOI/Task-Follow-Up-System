@@ -54,7 +54,7 @@ export const signUp=async(req,res,next)=>{
     const isStrongPassword=validator.isStrongPassword(password)
     if(!isStrongPassword){
         return res.status(400).json({
-            message: "Password must be at least 8 characters long, with at least 1 uppercase letter, 1 number, and 1 symbol"
+            message: "Password must be at least 8 characters long, with at least 1 uppercase and lowercase letter, 1 number, and 1 symbol"
         })
     }
     try {
@@ -72,7 +72,7 @@ export const signUp=async(req,res,next)=>{
                 message:"User already exists"
             })
         }
-        else if(user.isDeleted){
+        else{
             user.isDeleted=false
             user.username=username
             user.password=password
@@ -98,4 +98,20 @@ export const signUp=async(req,res,next)=>{
 
     
 }
-export default {login,signUp}
+export const softDelete=async(req,res,next)=>{
+    const userId=req.user.id
+    try {
+        const user=await User.findById(userId)
+        if(!user||user.isDeleted){
+            return res.status(404).json({
+                message:"user not found"
+            })
+        }
+
+        await User.findByIdAndUpdate(userId,{isDeleted:true})
+        res.status(200).json({message:"user deleted successfully"})
+    } catch (error) {
+        next(error)
+    }
+}
+export default {login,signUp,softDelete}
