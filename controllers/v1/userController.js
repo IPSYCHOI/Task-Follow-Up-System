@@ -21,8 +21,6 @@ export const login=async(req,res,next)=>{
 
                 message:"Invalid credentials"
 
-                message:"Invalid cridentionals"
-
             })
         }
         const token=generateToken(user._id)
