@@ -18,7 +18,9 @@ export const login=async(req,res,next)=>{
         const passMatch=await user.passCheck(password)
         if(!passMatch){
             return res.status(404).json({
-                message:"Invalid cridentionals"
+
+                message:"Invalid credentials"
+
             })
         }
         const token=generateToken(user._id)
