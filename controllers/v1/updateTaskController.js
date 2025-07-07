@@ -5,7 +5,7 @@ import validator from "validator";
 export const UpdateTaskController = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, startDate, endDate, isCompleted, isDeleted } = req.body;
+        const { title, description, startDate, endDate, isCompleted} = req.body;
 
         if (!title || !description || !startDate || !endDate) {
             return res.status(400).json({ message: "All fields are required" });
@@ -34,7 +34,6 @@ export const UpdateTaskController = async (req, res) => {
         task.startDate = new Date(startDate);
         task.endDate = new Date(endDate);
         task.isCompleted = isCompleted;
-        task.isDeleted = isDeleted;
 
         await task.save();
 
