@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const Taskschema = mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        maxlength: [100, "Title must not exceed 100 characters"]
     },
     description: {
         type: String,
@@ -28,6 +29,10 @@ const Taskschema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true })
 
@@ -41,9 +46,6 @@ Taskschema.pre("save", async function (next) {
     }
     else if (this.startDate <= dateNow && dateNow <= this.endDate) {
         this.status = "In Progress";
-    }
-    else if (dateNow > this.endDate) {
-        this.status = "Overdue";
     }
     else {
         this.status = "Overdue";

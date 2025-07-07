@@ -1,8 +1,8 @@
-const globalErrorHandler=(err,req,res,next)=>{
+const globalErrorHandler = (err, req, res, next) => {
     console.log(err)
-    const status=err.status || 500
+    const status = err.status || 500
     const message = err.message;
-    const data =err.data
+    const data = err.data
     res.status(status).json({
         message,
         data
