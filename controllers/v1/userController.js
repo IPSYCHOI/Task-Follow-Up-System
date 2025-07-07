@@ -9,7 +9,7 @@ export const login=async(req,res,next)=>{
         })
     }
     try {
-        const user=await User.findOne({email})
+        const user=await User.findOne({email,isDeleted:false})
         if(!user){
             return res.status(404).json({
                 message:"User not found"
@@ -25,6 +25,7 @@ export const login=async(req,res,next)=>{
         }
         const token=generateToken(user._id)
         const mappedUser={
+            id:user._id,
             username:user.username,
             email:user.email,
         }
@@ -58,25 +59,34 @@ export const signUp=async(req,res,next)=>{
         })
     }
     try {
-        const existsUser=await User.findOne({email})
-        if(existsUser){
+        let user=await User.findOne({email})
+        if(!user){
+            user=new User({
+                username,
+                email,
+                password
+            })
+            await user.save()
+        }
+        else if(!user.isDeleted){
             return res.status(409).json({
                 message:"User already exists"
             })
         }
-        const user=new User({
-            username,
-            email,
-            password
-        })
-        await user.save()
+        else if(user.isDeleted){
+            user.isDeleted=false
+            user.username=username
+            user.password=password
+            await user.save()
+        }
         const token=generateToken(user._id)
         const mappedUser={
+            id:user._id,
             username:user.username,
             email:user.email,
         }
         res.status(201).json({
-            message:"user created successfully",
+            message:"user registered successfully",
             data:{
                 user:mappedUser,
                 token
