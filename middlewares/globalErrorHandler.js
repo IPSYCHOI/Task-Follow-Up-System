@@ -8,4 +8,4 @@ const globalErrorHandler=(err,req,res,next)=>{
         data
     })
 }
-exports.globalErrorHandler=globalErrorHandler
+export default globalErrorHandler

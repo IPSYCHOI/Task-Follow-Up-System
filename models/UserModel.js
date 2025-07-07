@@ -14,7 +14,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    tasks:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Task"
+        }
+    ]
 },
     {
         timestamps: true
@@ -36,4 +42,5 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.passCheck = function (password) {
     return bcrypt.compare(password, this.password)
 }
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+export default User
