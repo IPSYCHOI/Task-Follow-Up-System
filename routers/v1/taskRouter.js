@@ -1,5 +1,6 @@
 import {Router} from 'express';
-import { GetAllTasks } from '../../controllers/v1/taskController.js';
+import { GetAllTasks } from '../../controllers/v1/dashboardController.js';
+import { isAuth } from '../../middlewares/authMiddleware.js';
 const router = Router();
-router.get('/dashboard',GetAllTasks);
+router.get('/dashboard',isAuth,GetAllTasks);
 export {router as taskRouter};

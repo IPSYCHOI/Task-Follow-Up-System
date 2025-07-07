@@ -96,7 +96,6 @@ export const signUp=async(req,res,next)=>{
         next(error)
     }
 
-    
 }
 export const softDelete=async(req,res,next)=>{
     const userId=req.user.id
