@@ -12,7 +12,7 @@ export const isAuth=(req,res,next)=>{
         next()
     } catch (error) {
         error.status=401
-        error.message="From jwt verification "+error.message
+        error.message="Invalid or expired token."
         next(error)
     }
 }
