@@ -1,6 +1,7 @@
 import User from "../../models/UserModel.js"
 import { generateToken } from "../../utils/generateJwt.js"
 import validator from 'validator'
+
 export const login=async(req,res,next)=>{
     const {email,password}=req.body
     if(!email||!password){

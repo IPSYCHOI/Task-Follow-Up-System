@@ -1,22 +1,34 @@
-import Task from "../../models/TaskModel.js";
+import Task from "../../../models/TaskModel.js";
+import User from "../../../models/UserModel.js";
 import validator from "validator";
+import {
+    BadRequestError,
+    UnAuthorizedError,
+    NotFoundError
+} from "../../../Errors/error.js";
 
-// update Task
-export const UpdateTaskController = async (req, res) => {
+// Update Task
+export const UpdateTaskController = async (req, res, next) => {
     try {
+        const user = await User.findById(req.user._id);
+
+        if (!user) {
+            throw new UnAuthorizedError("User is not authorized");
+        }
+
         const { id } = req.params;
-        const { title, description, startDate, endDate, isCompleted} = req.body;
+        const { title, description, startDate, endDate, isCompleted } = req.body;
 
         if (!title || !description || !startDate || !endDate) {
-            return res.status(400).json({ message: "All fields are required" });
+            throw new BadRequestError("All fields are required");
         }
 
         if (!validator.isDate(startDate) || !validator.isDate(endDate)) {
-            return res.status(400).json({ message: "Start and end dates must be valid" });
+            throw new BadRequestError("Start and end dates must be valid");
         }
 
         if (new Date(endDate) < new Date(startDate)) {
-            return res.status(400).json({ message: "End date cannot be before start date" });
+            throw new BadRequestError("End date cannot be before start date");
         }
 
         const task = await Task.findOne({
@@ -26,7 +38,7 @@ export const UpdateTaskController = async (req, res) => {
         });
 
         if (!task) {
-            return res.status(404).json({ message: "Task not found" });
+            throw new NotFoundError("Task not found");
         }
 
         task.title = title;
@@ -43,6 +55,6 @@ export const UpdateTaskController = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        next(err);
     }
-};
+}
