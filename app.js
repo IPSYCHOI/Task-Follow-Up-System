@@ -8,7 +8,6 @@ const app = express();
 
 app.use(cors(corsOptions));
 app.use(express.json())
-app.use('/api/v1',allRouters_v1)
-app.use('/task',taskRouter)
+app.use('/api/v1', allRouters_v1)
 app.use(globalErrorHandler)
 export default app

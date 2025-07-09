@@ -42,7 +42,6 @@ export const login=async(req,res,next)=>{
 }
 export const signUp=async(req,res,next)=>{
     const {username,email,password,password2}=req.body
-    console.log("REQ.BODY =>", req.body);
     if(!username||!email||!password||!password2){
         return res.status(400).json({
             message:"All fields required"

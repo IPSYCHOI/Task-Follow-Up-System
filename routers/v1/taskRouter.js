@@ -1,15 +1,12 @@
 import { Router } from 'express';
 import { GetAllTasks } from '../../controllers/v1/dashboardController.js';
-import { GetAllTasksController } from '../../controllers/v1/getTasksController.js';
+import { GetAllTasksController } from '../../controllers/v1/taskControllers/getTasksController.js';
 import { GetTaskController } from '../../controllers/v1/getTaskController.js';
 import { DeleteTaskController } from '../../controllers/v1/deleteTaskController.js';
 import { CreateTaskController } from '../../controllers/v1/createTaskController.js';
 import { UpdateTaskController } from '../../controllers/v1/updateTaskController.js';
 import { isAuth } from '../../middlewares/authMiddleware.js';
 
-import {Router} from 'express';
-import { GetAllTasks } from '../../controllers/v1/dashboardController.js';
-import { isAuth } from '../../middlewares/authMiddleware.js';
 const router = Router();
 
 router.get('/dashboard',isAuth, isAuth, GetAllTasks);
