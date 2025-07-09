@@ -1,7 +1,10 @@
 import express from 'express'
 import authRouters from "./authRouters.js"
-const router = express.Router()
+import {taskRouter}  from "./taskRouter.js"
 
-router.use("/auth",authRouters)
+const router = express.Router();
+
+router.use("/tasks",taskRouter);
+router.use("/auth",authRouters);
 
 export default router
