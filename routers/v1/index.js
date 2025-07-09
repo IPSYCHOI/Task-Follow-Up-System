@@ -4,7 +4,7 @@ import {taskRouter}  from "./taskRouter.js"
 
 const router = express.Router();
 
-router.use("/task",taskRouter);
+router.use("/tasks",taskRouter);
 router.use("/auth",authRouters);
 
 export default router
