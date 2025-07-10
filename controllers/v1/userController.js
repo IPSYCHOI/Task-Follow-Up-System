@@ -1,26 +1,27 @@
 import User from "../../models/UserModel.js"
 import { generateToken } from "../../utils/generateJwt.js"
-import validator from 'validator'
+import userValidation from "../../validations/userValidation.js"
+import { BadRequestError ,NotFoundError} from "../../Errors/error.js";
 
 export const login=async(req,res,next)=>{
     const {email,password}=req.body
-    if(!email||!password){
-        return res.status(400).json({
-            message:"All fields required"
-        })
+    let validationArray=[]
+    validationArray.push(userValidation.isEmail(email))
+    validationArray.push(userValidation.isPassword(password))
+    for(const v of validationArray){
+        if( v !==true){
+            throw new BadRequestError(v)
+        }
     }
     try {
         const user=await User.findOne({email,isDeleted:false})
         if(!user){
-            return res.status(404).json({
-                message:"User not found"
-            })
+            throw new NotFoundError("User Not found")
         }
         const passMatch=await user.passCheck(password)
         if(!passMatch){
-            return res.status(404).json({
-
-                message:"Invalid credentials"
+            return res.status(401).json({
+                message:"Incorrect email or password"
             })
         }
         const token=generateToken(user._id)
@@ -42,22 +43,14 @@ export const login=async(req,res,next)=>{
 }
 export const signUp=async(req,res,next)=>{
     const {username,email,password,password2}=req.body
-    console.log("REQ.BODY =>", req.body);
-    if(!username||!email||!password||!password2){
-        return res.status(400).json({
-            message:"All fields required"
-        })
-    }
-    if(password!==password2){
-        return res.status(400).json({
-            message:"Passwords dont match"
-        })  
-    }
-    const isStrongPassword=validator.isStrongPassword(password)
-    if(!isStrongPassword){
-        return res.status(400).json({
-            message: "Password must be at least 8 characters long, with at least 1 uppercase and lowercase letter, 1 number, and 1 symbol"
-        })
+    let validationArray=[]
+    validationArray.push(userValidation.isName(username))
+    validationArray.push(userValidation.isEmail(email))
+    validationArray.push(userValidation.isPassword(password,password2))
+    for(const v of validationArray){
+        if( v !==true){
+            throw new BadRequestError(v)
+        }
     }
     try {
         let user=await User.findOne({email})
@@ -80,7 +73,6 @@ export const signUp=async(req,res,next)=>{
             user.password=password
             await user.save()
         }
-        const token=generateToken(user._id)
         const mappedUser={
             id:user._id,
             username:user.username,
@@ -90,7 +82,6 @@ export const signUp=async(req,res,next)=>{
             message:"user registered successfully",
             data:{
                 user:mappedUser,
-                token
             }
 
         })
