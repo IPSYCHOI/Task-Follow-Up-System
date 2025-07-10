@@ -6,7 +6,7 @@ import { NotFoundError,UnAuthorizedError } from "../../../Errors/error.js";
 export const GetTaskController = async (req, res, next) => {
 
     try {
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
             throw new UnAuthorizedError("User is not authorized");
@@ -17,7 +17,7 @@ export const GetTaskController = async (req, res, next) => {
         const task = await Task.findOne({
             _id: id,
             isDeleted: false,
-            user: req.user._id
+            user: req.user.id
         });
 
         if (!task) {
