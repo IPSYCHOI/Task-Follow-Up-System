@@ -11,6 +11,8 @@ app.use(cors(corsOptions));
 app.use(express.json())
 
 app.use('/api/v1',allRouters_v1)
-app.use('/task',taskRouter)
+app.use((req,res,next)=>{return res.status(404).json({
+    message:"not found"
+})})
 app.use(globalErrorHandler)
 export default app

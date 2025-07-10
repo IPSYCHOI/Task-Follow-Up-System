@@ -2,7 +2,7 @@ import Task from "../../models/TaskModel.js";
 
 export const GetAllTasks = async (req, res, next) => {
   try {
-    const tasks = await Task.find({ user: req.user._id });
+    const tasks = await Task.find({ user: req.user.id });
 
     if (!tasks) throw new Error("No tasks found");
 
@@ -28,7 +28,6 @@ export const GetAllTasks = async (req, res, next) => {
       },
     });
   } catch (err) {
-    //res.status(500).json({ msg: err.message });
     next(err);
   }
 };

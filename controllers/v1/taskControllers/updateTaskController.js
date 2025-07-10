@@ -10,7 +10,7 @@ import {
 // Update Task
 export const UpdateTaskController = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
             throw new UnAuthorizedError("User is not authorized");
@@ -33,7 +33,7 @@ export const UpdateTaskController = async (req, res, next) => {
 
         const task = await Task.findOne({
             _id: id,
-            user: req.user._id,
+            user: req.user.id,
             isDeleted: false
         });
 

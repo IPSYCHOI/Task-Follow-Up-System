@@ -1,16 +1,16 @@
 import Task from "../../../models/TaskModel.js";
 import User from "../../../models/UserModel.js";
-import { BadRequestError, UnAuthorizedError } from "../../../Errors/error.js";
+import { BadRequestError ,NotFoundError } from "../../../Errors/error.js";
 import validator from 'validator'
 
 // Create Task
 export const CreateTaskController = async (req, res, next) => {
     try {
 
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
-            throw new UnAuthorizedError("User is not authorized");
+            throw new NotFoundError("User is not found");
         }
 
         const { title, description, startDate, endDate } = req.body;
@@ -43,14 +43,14 @@ export const CreateTaskController = async (req, res, next) => {
             description,
             startDate: start,
             endDate: end,
-            user: req.user._id
+            user: req.user.id
         });
 
         await task.save();
 
         res.status(201).json({
-            data: task,
             message: "Task created successfully",
+            data: task
         });
     } catch (err) {
         next(err);
