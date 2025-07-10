@@ -7,14 +7,15 @@ export const login=async(req,res,next)=>{
     const {email,password}=req.body
     let validationArray=[]
     validationArray.push(userValidation.isEmail(email))
-    validationArray.push(userValidation.isPassword(password))
+    validationArray.push(userValidation.isPassword(password,password))
     for(const v of validationArray){
         if( v !==true){
             throw new BadRequestError(v)
         }
     }
+    const lowerEmail=email.toLowerCase()
     try {
-        const user=await User.findOne({email,isDeleted:false})
+        const user=await User.findOne({email:lowerEmail,isDeleted:false})
         if(!user){
             throw new NotFoundError("User Not found")
         }
@@ -52,12 +53,13 @@ export const signUp=async(req,res,next)=>{
             throw new BadRequestError(v)
         }
     }
+    const lowerEmail=email.toLowerCase()
     try {
-        let user=await User.findOne({email})
+        let user=await User.findOne({email:lowerEmail})
         if(!user){
             user=new User({
                 username,
-                email,
+                email:lowerEmail,
                 password
             })
             await user.save()

@@ -27,7 +27,10 @@ export const isEmail=(email)=>{
 
     return true
 }
-export const isPassword=(pass1,pass2=pass1)=>{
+export const isPassword=(pass1,pass2)=>{
+    if(!pass1){
+        return "password is required"
+    }
     if(!pass1 || !pass2){
         return "password and confirmation are required"
     }
