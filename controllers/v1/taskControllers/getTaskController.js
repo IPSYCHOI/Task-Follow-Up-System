@@ -1,18 +1,17 @@
 import Task from "../../../models/TaskModel.js";
-import User from "../../../models/UserModel.js";
-import { NotFoundError,UnAuthorizedError } from "../../../Errors/error.js";
+import { NotFoundError} from "../../../Errors/error.js";
 
 // Get Task
 export const GetTaskController = async (req, res, next) => {
 
+    const { id } = req.params;
     try {
-        const user = await User.findById(req.user.id);
+        // const user = await User.findById(req.user.id);
 
-        if (!user) {
-            throw new UnAuthorizedError("User is not authorized");
-        }
+        // if (!user) {
+        //     throw new UnAuthorizedError("User is not authorized");  // user check in isAuth mw
+        // }
 
-        const { id } = req.params;
 
         const task = await Task.findOne({
             _id: id,
