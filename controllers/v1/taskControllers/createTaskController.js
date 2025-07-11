@@ -1,7 +1,6 @@
 import Task from "../../../models/TaskModel.js";
 import taskValidator from "../../../validations/taskValidation.js";
-import { BadRequestError ,NotFoundError } from "../../../Errors/error.js";
-import validator from 'validator'
+import { BadRequestError } from "../../../Errors/error.js";
 
 // Create Task
 export const CreateTaskController = async (req, res, next) => {

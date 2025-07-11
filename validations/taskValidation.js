@@ -29,7 +29,7 @@ export const isDes=(des)=>{
     }
     return true
 }
-export const isDate=(startDate,endDate)=>{
+export const isDate=(startDate,endDate,update=false)=>{
     if(!startDate){
         return "Start Date is required"
     }
@@ -48,14 +48,26 @@ export const isDate=(startDate,endDate)=>{
     if(start>end){
         return "End date cannot be before start date"
     }
-    if (start < now) {
+    if(!update){
+        if (start < now) {
         return "Start date cannot be before today's date"
+        }
+    }
+    return true
+}
+export const iscompleted=(iscompleted)=>{
+    if(!iscompleted){
+        return "iscompleted is required"
+    }
+    if(typeof startDate !== "boolean"){
+        return "iscompleted must be a Boolean"
     }
     return true
 }
 const taskValidator={
     isTitle,
     isDes,
-    isDate
+    isDate,
+    iscompleted
 }
 export default taskValidator
