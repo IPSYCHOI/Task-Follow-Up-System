@@ -16,7 +16,7 @@ export const isAuth = async(req, res, next) => {
         }
         const mappedUser={
             id:user._id,
-            name:user.username,
+            name:user.name,
             email:user.email
 
         }
