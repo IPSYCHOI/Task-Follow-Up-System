@@ -2,8 +2,6 @@ import User from "../../models/UserModel.js"
 import { generateToken } from "../../utils/generateJwt.js"
 import userValidation from "../../validations/userValidation.js"
 import { BadRequestError ,NotFoundError} from "../../Errors/error.js";
-import userValidation from "../../validations/userValidation.js"
-import { BadRequestError ,NotFoundError} from "../../Errors/error.js";
 
 export const login=async(req,res,next)=>{
     const {email,password}=req.body
@@ -16,26 +14,13 @@ export const login=async(req,res,next)=>{
         }
     }
     const lowerEmail=email.toLowerCase()
-    let validationArray=[]
-    validationArray.push(userValidation.isEmail(email))
-    validationArray.push(userValidation.isPassword(password,password))
-    for(const v of validationArray){
-        if( v !==true){
-            throw new BadRequestError(v)
-        }
-    }
-    const lowerEmail=email.toLowerCase()
     try {
         const user=await User.findOne({email:lowerEmail,isDeleted:false})
-        const user=await User.findOne({email:lowerEmail,isDeleted:false})
         if(!user){
-            throw new NotFoundError("User Not found")
             throw new NotFoundError("User Not found")
         }
         const passMatch=await user.passCheck(password)
         if(!passMatch){
-            return res.status(401).json({
-                message:"Incorrect email or password"
             return res.status(401).json({
                 message:"Incorrect email or password"
             })
@@ -70,7 +55,6 @@ export const signUp=async(req,res,next)=>{
     }
     const lowerEmail=email.toLowerCase()
     try {
-        let user=await User.findOne({email:lowerEmail})
         let user=await User.findOne({email:lowerEmail})
         if(!user){
             user=new User({
