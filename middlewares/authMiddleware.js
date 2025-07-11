@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken"
 import User from "../models/UserModel.js"
 import { NotFoundError } from "../Errors/error.js"
+import User from "../models/UserModel.js"
+import { NotFoundError } from "../Errors/error.js"
 const JWT_SECRET = process.env.JWT_SECRET
+export const isAuth = async(req, res, next) => {
 export const isAuth = async(req, res, next) => {
     try {
         let token = req.get("Authorization")
