@@ -55,12 +55,12 @@ export const isDate=(startDate,endDate,update=false)=>{
     }
     return true
 }
-export const iscompleted=(iscompleted)=>{
-    if(!iscompleted){
-        return "iscompleted is required"
+export const isCompleted=(iscompleted)=>{
+    if(iscompleted==null||iscompleted==undefined){
+        return "isCompleted is required"
     }
-    if(typeof startDate !== "boolean"){
-        return "iscompleted must be a Boolean"
+    if(typeof iscompleted !== "boolean"){
+        return "isCompleted must be a Boolean"
     }
     return true
 }
@@ -68,6 +68,6 @@ const taskValidator={
     isTitle,
     isDes,
     isDate,
-    iscompleted
+    isCompleted
 }
 export default taskValidator

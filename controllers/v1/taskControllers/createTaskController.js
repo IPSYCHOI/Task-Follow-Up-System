@@ -49,8 +49,8 @@ export const CreateTaskController = async (req, res, next) => {
         const task = new Task({
             title,
             description,
-            startDate: start,
-            endDate: end,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
             user: req.user.id
         });
 
