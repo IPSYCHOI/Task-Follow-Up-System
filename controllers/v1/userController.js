@@ -28,7 +28,7 @@ export const login=async(req,res,next)=>{
         const token=generateToken(user._id)
         const mappedUser={
             id:user._id,
-            username:user.username,
+            name:user.name,
             email:user.email,
         }
         res.status(200).json({
@@ -43,9 +43,9 @@ export const login=async(req,res,next)=>{
     }
 }
 export const signUp=async(req,res,next)=>{
-    const {username,email,password,password2}=req.body
+    const {name,email,password,password2}=req.body
     let validationArray=[]
-    validationArray.push(userValidation.isName(username))
+    validationArray.push(userValidation.isName(name))
     validationArray.push(userValidation.isEmail(email))
     validationArray.push(userValidation.isPassword(password,password2))
     for(const v of validationArray){
@@ -58,7 +58,7 @@ export const signUp=async(req,res,next)=>{
         let user=await User.findOne({email:lowerEmail})
         if(!user){
             user=new User({
-                username,
+                name,
                 email:lowerEmail,
                 password
             })
@@ -71,13 +71,13 @@ export const signUp=async(req,res,next)=>{
         }
         else{
             user.isDeleted=false
-            user.username=username
+            user.name=name
             user.password=password
             await user.save()
         }
         const mappedUser={
             id:user._id,
-            username:user.username,
+            name:user.name,
             email:user.email,
         }
         res.status(201).json({
