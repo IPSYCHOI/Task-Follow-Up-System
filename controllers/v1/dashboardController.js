@@ -4,7 +4,7 @@ export const GetAllTasks = async (req, res, next) => {
   try {
     const tasks = await Task.find({ user: req.user.id });
 
-    if (!tasks) throw new Error("No tasks found");
+    // if (!tasks) throw new Error("No tasks found");  // we dont need to throw error if user have no tasks
 
     const completed = [],
       inProgress = [],
@@ -19,7 +19,7 @@ export const GetAllTasks = async (req, res, next) => {
       }
     });
     res.status(200).json({
-      msg: "Tasks found successfully",
+      message: tasks.length==0?"No tasks found":"Tasks found successfully",   // message instead of msg  handle no tasks message
       data: {
         allTasks: tasks,
         completed: completed,
