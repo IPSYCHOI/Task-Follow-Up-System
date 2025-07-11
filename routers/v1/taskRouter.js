@@ -8,14 +8,15 @@ import { DeleteTaskController } from '../../controllers/v1/taskControllers/delet
 import { CreateTaskController } from '../../controllers/v1/taskControllers/createTaskController.js';
 import { UpdateTaskController } from '../../controllers/v1/taskControllers/updateTaskController.js';
 import { isAuth } from '../../middlewares/authMiddleware.js';
+import { validateKeys } from '../../middlewares/validateKeys.js';
 
 
 router.get('/dashboard', isAuth, GetAllTasks);
 router.get('/task', isAuth, GetAllTasksController);
 router.get('/task/:id', isAuth, GetTaskController);
 router.delete('/task/:id', isAuth, DeleteTaskController);
-router.post('/task', isAuth, CreateTaskController);
-router.put('/task/:id', isAuth, UpdateTaskController);
+router.post('/task', validateKeys(["title","description","startDate","endDate"]), isAuth,CreateTaskController);
+router.put('/task/:id',validateKeys(["title","description","startDate","endDate","isCompleted"]), isAuth, UpdateTaskController);
 
 export { router as taskRouter };
 

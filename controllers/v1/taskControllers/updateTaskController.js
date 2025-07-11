@@ -1,5 +1,5 @@
 import Task from "../../../models/TaskModel.js";
-import taskValidator, { iscompleted } from "../../../validations/taskValidation.js";
+import taskValidator from "../../../validations/taskValidation.js";
 
 import {
     BadRequestError,
@@ -14,7 +14,7 @@ export const UpdateTaskController = async (req, res, next) => {
         validationArray.push(taskValidator.isTitle(title))
         validationArray.push(taskValidator.isDes(description))
         validationArray.push(taskValidator.isDate(startDate,endDate,true))
-        validationArray.push(taskValidator.iscompleted(iscompleted))
+        validationArray.push(taskValidator.isCompleted(isCompleted))
         for(const v of validationArray){
             if(v!==true){
                 throw new BadRequestError(v)
